@@ -4,6 +4,7 @@ import "fmt"
 
 func main() {
 	nome := "Gustavo"
-	idade := 20 - 3
-	fmt.Printf("Olá Mundo! Prazer, meu nome é %s e estou praticando diversos exercicios em GO, tenho %d. \n", nome, idade)
+	var idade int = 20 - 1
+	var sobrenome string = "Pedro"
+	fmt.Println(nome, sobrenome, idade)
 }
