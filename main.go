@@ -3,5 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("Olá Mundo! Prazer, meu nome é Gustavo e estou praticando diversos exercicios em GO")
+	nome := "Gustavo"
+	idade := 20 - 3
+	fmt.Printf("Olá Mundo! Prazer, meu nome é %s e estou praticando diversos exercicios em GO, tenho %d. \n", nome, idade)
 }
