@@ -3,8 +3,14 @@ package main
 import "fmt"
 
 func main() {
-	numerospares := [3]int{2, 4, 6}
-	fmt.Println(numerospares)
-	numerospares[2] = 8
-	fmt.Println(numerospares[2])
+	var comidas []string
+
+	comidas = append(comidas, "Arroz")
+	comidas = append(comidas, "Carne")
+	comidas = append(comidas, "Feijão")
+
+	fmt.Println(comidas)
+
+	prato := comidas[1:2]
+	fmt.Println(prato)
 }
