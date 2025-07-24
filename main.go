@@ -3,14 +3,11 @@ package main
 import "fmt"
 
 func main() {
-	var comidas []string
+	notaAlunos := make(map[string]float64)
 
-	comidas = append(comidas, "Arroz")
-	comidas = append(comidas, "Carne")
-	comidas = append(comidas, "Feijão")
+	notaAlunos["Gustavo"] = 9.9
+	notaAlunos["Renan"] = 8.7
 
-	fmt.Println(comidas)
-
-	prato := comidas[1:2]
-	fmt.Println(prato)
+	fmt.Printf("A nota de Gustavo é %.1f \n", notaAlunos["Gustavo"])
+	fmt.Println(notaAlunos)
 }
