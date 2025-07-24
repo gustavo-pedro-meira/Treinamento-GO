@@ -2,28 +2,47 @@ package main
 
 import "fmt"
 
-type Usuario struct {
-	ID int
+type Produto struct {
 	Nome string
-	Email string
-	Ativo bool
+	Preco float64
+	Quantidade int
 }
 
-func (u *Usuario) Desativar() {
-	u.Ativo = false
-	fmt.Printf("O Usuario %s foi Desativado \n", u.Nome)
+func (p *Produto) AplicarDesconto(percentual float64) {
+	desconto := p.Preco * (percentual / 100)
+	valor_desconto := p.Preco - desconto
+	fmt.Printf("Valor do Produto com Desconto: %.2f \n", valor_desconto)
+}
+
+func (p *Produto) ValorTotalEstoque() {
+	valor_total := p.Preco * float64(p.Quantidade)
+	fmt.Println("Valor total em estoque: ", valor_total)
+}
+
+func (p *Produto) AdicionarEstoque(quantidade int) {
+	p.Quantidade += quantidade
+	fmt.Printf("Quantidade de %d aumentada para o produto %s \n", p.Quantidade, p.Nome)
+}
+
+func(p *Produto) VenderProduto(quantidade int) {
+	if quantidade > p.Quantidade {
+		fmt.Println("Estoque Insuficiente")
+	} else {
+		p.Quantidade -= quantidade
+		fmt.Println("Venda Realizada")
+	}
 }
 
 func main() {
-	gustavo_user := Usuario {
-		ID: 1,
-		Nome: "Gustavo",
-		Email: "gustavo16pedro@gmail.com",
-		Ativo: true,
+	notebook := Produto {
+		Nome: "Samsung Book",
+		Preco: 5000.00,
+		Quantidade: 5,
 	}
 
-	fmt.Println("Nome: ", gustavo_user.Nome)
-	gustavo_user.Desativar()
-	fmt.Println("Esta Ativo? ", gustavo_user.Ativo)
+	notebook.ValorTotalEstoque()
+	notebook.AplicarDesconto(10)
+	notebook.AdicionarEstoque(2)
+	notebook.VenderProduto(2)
 }
 
