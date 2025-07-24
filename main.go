@@ -3,9 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	for i := 0; i <= 20; i++ {
-		if i % 2 == 0 {
-			fmt.Printf("Número %d é par \n", i)
-		} 
-	}
+	numerospares := [3]int{2, 4, 6}
+	fmt.Println(numerospares)
+	numerospares[2] = 8
+	fmt.Println(numerospares[2])
 }
