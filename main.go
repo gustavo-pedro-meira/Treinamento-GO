@@ -2,43 +2,50 @@ package main
 
 import "fmt"
 
-type ContaBancaria struct {
-	Titular string
-	Saldo float64
+type Vendavel interface {
+	ObterPreco() float64
 }
 
-func (conta *ContaBancaria) Depositar(valor float64) {
-	if valor < 0.0 {
-		fmt.Println("Valor negativo \n")
-	} else {
-		conta.Saldo += valor
-		fmt.Printf("Valor depositado: %.2f \n", valor)
+type ProdutoFisico struct {
+	Nome string
+	Preco float64
+}
+
+type Assinatura struct {
+	Nome string
+	PrecoMensal float64
+	Meses int
+}
+
+func(produto *ProdutoFisico) ObterPreco() float64 {
+	return produto.Preco
+}
+
+func (assinatura *Assinatura) ObterPreco() float64 {
+	return assinatura.PrecoMensal * float64(assinatura.Meses)
+}
+
+func CalcularPreco (carrinho []Vendavel) {
+	total := 0.0
+	for _, item := range carrinho {
+		total += item.ObterPreco()
+		fmt.Printf("Adicionando item ao carrinho: R$ %.2f\n", item.ObterPreco())
 	}
-}
-
-func (conta *ContaBancaria) Sacar(valor float64) {
-	if valor > conta.Saldo {
-		fmt.Println("Saldo Insuficiente")
-	} else {
-		conta.Saldo -= valor
-		fmt.Printf("Valor Sacado: %.2f \n", valor)
-	}
-}
-
-func (conta *ContaBancaria) VerSaldo() {
-	fmt.Printf("Saldo Disponivel: %.2f \n", conta.Saldo)
+	fmt.Printf("O total do carrinho é R$ %.2f\n", total)
 }
 
 func main() {
-	conta := ContaBancaria {
-		Titular: "Gustavo",
-		Saldo: 100.00,
+	notebook := ProdutoFisico {
+		Nome: "Notebook",
+		Preco: 3500.00,
+	}
+	curso := Assinatura {
+		Nome: "Curso GOLAND",
+		PrecoMensal: 12.99,
+		Meses: 2,
 	}
 
-	conta.Depositar(250)
-	conta.VerSaldo()
-	conta.Sacar(400.99)
-	conta.Sacar(300.27)
-	conta.VerSaldo()
+	meuCarrinho := []Vendavel{&notebook, &curso}
+	CalcularPreco(meuCarrinho)
 }
 
