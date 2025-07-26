@@ -48,4 +48,3 @@ func main() {
 	meuCarrinho := []Vendavel{&notebook, &curso}
 	CalcularPreco(meuCarrinho)
 }
-
