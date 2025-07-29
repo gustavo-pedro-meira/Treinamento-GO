@@ -1,38 +1,64 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 )
 
-func handlerRaiz(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Ola mundo! Meu primeiro server GOLANG está no ar.")
+type Produto struct {
+	Nome string `json:"nome"`
+	Preco float64 `json:preco`
 }
 
-func handlerOla(w http.ResponseWriter, r *http.Request) {
-	nome := r.URL.Query().Get("nome")
-	if nome == "" {
-		nome = "Visitante"
-	}
-	fmt.Fprintf(w, "Opa, %s! Bem vindo a minha API", nome)
+type Usuario struct {
+	Nome string `json:"nome"`
+	Email string `json:"email"`
 }
 
-func handlerSobre(w http.ResponseWriter, r *http.Request) {
-	nome := r.URL.Query().Get("nome")
-	if nome == "" {
-		nome = "Visitante"
+func handlerUsuario(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Metodo HTTP não Permitido", http.StatusMethodNotAllowed)
+		return
 	}
-	fmt.Fprintf(w, "Este é um servidor web feito por %s", nome)
+
+	var usuario Usuario
+
+	err := json.NewDecoder(r.Body).Decode(&usuario)
+	if err != nil {
+		http.Error(w, "Erro ao Decodificar o JSON", http.StatusMethodNotAllowed)
+		return
+	}
+
+	fmt.Printf("Usuario '%+v' Recebido", usuario)
+	w.WriteHeader(http.StatusCreated)
+	fmt.Fprintf(w, "Usuario %s cadastrado com sucesso!", usuario.Nome)
+}
+
+func handlerProdutos(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Metodo HTTP não Permitido", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var produto Produto
+
+	err := json.NewDecoder(r.Body).Decode(&produto)
+	if err != nil {
+		http.Error(w, "Erro ao decodificar o JSON", http.StatusMethodNotAllowed)
+		return
+	}
+
+	fmt.Printf("Produto recebido: %+v\n", produto)
+	w.WriteHeader(http.StatusCreated)
+	fmt.Fprintf(w, "Produto '%s' recebido com sucesso!", produto.Nome)
 }
 
 func main() {
-	http.HandleFunc("/", handlerRaiz)
-	http.HandleFunc("/ola", handlerOla)
-	http.HandleFunc("/sobre", handlerSobre)
-
-	fmt.Println("Servidor escutando na porta 8080...")
-	fmt.Println("Acesse http://localhost:3030 ou http://localhost:3030/ola")
-
+	http.HandleFunc("/produtos", handlerProdutos)
+	http.HandleFunc("/usuario", handlerUsuario)
+	fmt.Println("Servidor rodando na porta 3030...")
 	log.Fatal(http.ListenAndServe(":3030", nil))
+
 }
