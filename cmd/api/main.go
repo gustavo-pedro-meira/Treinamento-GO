@@ -3,14 +3,27 @@ package main
 import (
 	// "TREINAMENTO-GO/internal/handlers"
 	"fmt"
+	"log"
 	"net/http"
 
 	// Framework CHI
 	"github.com/go-chi/chi/v5"
 	"github.com/gustavo-pedro-meira/Treinamento-GO/internal/handlers"
+	"github.com/gustavo-pedro-meira/Treinamento-GO/internal/database"
+
 )
 
 func main() {
+	// Conecta o BD ao iniciar aplicação
+	db, err := database.Conectar()
+	if err != nil {
+		log.Fatalf("Não foi possivel conectar ao BD: %w", err)
+	}
+	// Garante q a conexão seja fechada ao final da execução main
+	defer db.Close()
+
+	fmt.Println("Conexão com o banco de dados estabelecida com sucesso!")
+
 	// Cria uma nova instancia
 	r := chi.NewRouter()
 
