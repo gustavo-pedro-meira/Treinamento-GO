@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/gustavo-pedro-meira/Treinamento-GO/router"
 )
 
 func main() {
-
+	router.Initialize()
 }
